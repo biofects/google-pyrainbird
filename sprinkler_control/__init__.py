@@ -8,6 +8,21 @@ from Crypto.Hash import SHA256
 from Crypto.Cipher import AES
 from Crypto import Random
 
+# Added by Biofects
+from configparser import RawConfigParser
+import codecs
+parser = RawConfigParser()
+import codecs
+parser.read('config.cfg', encoding='utf-8')
+apikeyvalue = parser.get('apikey', 'key')
+password = parser.get('rainbird', 'pass')
+ipaddr = parser.get('rainbird', 'ip')
+prgrma = parser.get('programs', 'a')
+prgrmb = parser.get('programs', 'b')
+prgrmc = parser.get('programs', 'c')
+prgrmd = parser.get('programs', 'd')
+
+
 
 class RainbirdController:
     # COMMAND FILE RAINBIRD API
@@ -73,7 +88,9 @@ class RainbirdController:
             return -1
         self.logger.warning("Request resulted in no response")
         return 0
-        
+
+# Added by Biofects
+
     def startIrrigation(self,zone,minutes):
             self.logger.debug("Irrigation start requested for zone "+str(zone)+" for duration " + str(minutes))
             resp=self.request("ManuallyRunStation",zone,minutes)
@@ -85,6 +102,20 @@ class RainbirdController:
                 else:
                     self.logger.warning("Irrigation request NOT acknowledged")
                     return -1
+            self.logger.warning("Request resulted in no response")
+            return 0
+
+    def startProgram(self,program):
+            self.logger.debug("Irrigation start requested for program "+str(program))
+            resp=self.request("ManuallyRunProgram",program)
+            if (resp != ""):
+                jsonresult=json.loads(resp)
+                if (jsonresult["result"]["data"][:2] == "01"):
+                    self.logger.debug("Irrigation request acknowledged")
+                return 1
+            else:
+                self.logger.warning("Irrigation request NOT acknowledged")
+                return -1
             self.logger.warning("Request resulted in no response")
             return 0
 
@@ -217,23 +248,18 @@ class RainbirdController:
            encrypteddata = eas_encryptor.encrypt(c)
            return b2+iv+encrypteddata;
 
-"""
+
 logging.basicConfig(filename='pypython.log',level=logging.DEBUG)
 
-logger = logging.getLogger(__name__)
 
-logger.setLevel(logging.DEBUG)
+_LOGGER = logging.getLogger(__name__)
+_LOGGER .setLevel(logging.DEBUG)
 ch = logging.StreamHandler()
 ch.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 ch.setFormatter(formatter)
-logger.addHandler(ch)
+_LOGGER.addHandler(ch)
 
 controller = RainbirdController()
-controller.setConfig("####IP####","####PASS####")
-controller.startIrrigation(4,5)
-time.sleep(4)
-controller.stopIrrigation()
+controller.setConfig(ipaddr,password)
 
-controller.currentRainSensorState()
-"""
