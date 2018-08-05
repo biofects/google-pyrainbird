@@ -48,10 +48,5 @@ Once the Docker is running you can do a simple Curl call to test
 if you login to your running docker image, you can look at the pypython.log file for send and reply call-backs
 
 
-**Table of Contents**
-
-[TOCM]
-
-[TOC]
 
 
