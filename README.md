@@ -1,40 +1,55 @@
-![](https://www.rainbird.com/images/RainBirdLogo.gif) 
-# pyrainbird ![](https://img.shields.io/badge/python-3+-blue.svg)
-> Python module for interacting with WiFi LNK module of the Rain Bird Irrigation system
+###Google-pyRainbird
+Allow voice control of Rainbird Sprinkler Wifi. This will allow you to start a program and stop the irrigation.
+Biofects, is not affiliated with Rainbird corperation or its affailites.  This application relies to be run in Docker with a simple build and run. I run this from my Raspberry pi along my other Docker applications.
 
-This project has no affiliation with Rain Bird. This module works with the Rain Bird LNK WiFi Module.
- For more information see http://www.rainbird.com/landscape/products/controllers/LNK-WiFi.htm
+If you like this and want continous development or want other developed you can dontate here
+#### Donate to get geek stuff(sorry no beer here)
 
-----
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TWRQVYJWC77E6)
 
-This module communicates directly towards the IP Address of the WiFi module it does not support the cloud.
- You can start/stop the irrigation and get the currenltly active zone.
+#### Set up Application
+1. Clone ths repo
+2. Edit config.cfg (do not use quotes)
+[apikey]
+key = Add Key here*
+[rainbird]
+ip = IP of your Rainbird Link Module
+pass = Passworf of yout Rainbird Link Module*
+[programs]
+a = Program a Name (use only single word i.e. (all - to run all zones)
+b = Program b Name (use only single word i.e. (back - 	to run all zones in backyard)
+c = Program c Name (use only single word i.e. (front - 	to run all zones in front yard)
+d = Program d Name (use only single word i.e. (flowers  to run flowers drip)*
+1. docker build -t sprinkler:latest
+2. docker run -d -p `port`:5000 sprinkler:latest
+3. Ensure you have port forward set up for the port you want open from ifttt
 
-I'm not a Python developer, so sorry for the bad code. I've developed it to control it from my domtica systems.
+####Set up IFTTT
+Create a new Applet
+##### If This
+Google Assistant with simpe phrase with text ingredient.
+Start water in $
+##### Then That
+**Webhook**
+**URL**
+http:// `your public IP:port`/sprinkler/<Textfiled>
+**Method** 
+GET
+**Content Type**
+applcation/json
+**Body** 
+{'apikey':'`key for application`'}
+
+#### Test / Troubleshoot
+Once the Docker is running you can do a simple Curl call to test
+`curl -X GET local-ip:port/sprinkler/front -d {'apikey':''key you created'} -H "Content-type: Application/json"`
+if you login to your running docker image, you can look at the pypython.log file for send and reply call-backs
 
 
-**Please, feel free to contribute to this repo or chip in some cents for the effort and [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TFXBL7W9VEQZC)
+**Table of Contents**
 
-On the bottom of the module is some test code. Feel free te test it with your own
+[TOCM]
 
-```python
-
-
-# Test for controller
-logging.basicConfig(filename='pypython.log',level=logging.DEBUG)
+[TOC]
 
 
-_LOGGER = logging.getLogger(__name__)
-_LOGGER .setLevel(logging.DEBUG)
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-ch.setFormatter(formatter)
-_LOGGER.addHandler(ch)
-
-controller = RainbirdController(jsoncommands)
-controller.setConfig("####IP#####","####PASS#####")
-controller.startIrrigation(4,5)
-time.sleep(4)
-controller.stopIrrigation()
-```
