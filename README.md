@@ -27,7 +27,7 @@ d = Program d Name (use only single word i.e. (flowers  to run flowers drip)*
 4. docker run -d -p `port`:5000 sprinkler:latest
 5. Ensure you have port forward set up for the port you want open from ifttt
 
-####Set up IFTTT
+#### Set up IFTTT
 Create a new Applet
 ##### If This
 Google Assistant with simpe phrase with text ingredient.
