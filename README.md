@@ -16,7 +16,7 @@ If you like this and want continous development or want other developed you can 
 key = Add Key here*
 [rainbird]
 ip = IP of your Rainbird Link Module
-pass = Passworf of yout Rainbird Link Module*
+pass = Password of your Rainbird Link Module*
 [programs]
 a = Program a Name (use only single word i.e. (all - to run all zones)
 b = Program b Name (use only single word i.e. (back - 	to run all zones in backyard)
