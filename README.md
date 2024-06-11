@@ -1,4 +1,7 @@
-[!IMPORTANT]  This application is no longer Supported. I have since moved to another controller.
+# Thank you all for your support
+```diff
+- Important This application is no longer Supported. I have since moved to another controller. 
+```
 
 ### Google-pyRainbird
 
