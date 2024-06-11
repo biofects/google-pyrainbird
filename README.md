@@ -1,3 +1,5 @@
+[!IMPORTANT]  This application is no longer Supported. I have since moved to another controller.
+
 ### Google-pyRainbird
 
 Allow voice control of Rainbird Sprinkler Wifi. This will allow you to start a program and stop the irrigation.
